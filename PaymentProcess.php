@@ -28,14 +28,10 @@ class PaymentProcess{
         'EA2AqqpqEUOR2zWqo091nZ0RoncSi6Oq5FMC9SwTLDJRqODBK-4hmj7VoPS6u5ICUv0qXFLtt7c6jjhE' // ClientSecret
         ));        
         $this->apiContext->setConfig(array('mode' => 'sandbox','log.LogEnabled' => true,'log.FileName' => __DIR__ . '/PayPal.log','log.LogLevel' => 'INFO', // PLEASE USE `INFO` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS                
-       'cache.enabled' => false,                
-       // 'http.CURLOPT_CONNECTTIMEOUT' => 30                
-       // 'http.headers.PayPal-Partner-Attribution-Id' => '123123123'                
-       //'log.AdapterFactory' => '\PayPal\Log\DefaultLogFactory' 
-       // Factory class implementing \PayPal\Log\PayPalLogFactory            
+       'cache.enabled' => false,                    
        ));    
     }    
-    /**     *     * @return bool     */    
+    // @return bool  
     public function process( $products, $shippingCost ) {        
         $card = new CreditCard();        
         $card->setType($this->cardType)->setNumber($this->cardNumber)->setExpireMonth($this->expiryMonth)->setExpireYear($this->expiryYear)->setCvv2($this->cvv)->setFirstName($this->firstName)->setLastName($this->lastName);
@@ -51,8 +47,7 @@ class PaymentProcess{
             $item->setName($product['product_name'])->setDescription($product['description'])->setCurrency('USD')->setQuantity($product['qty'])->setTax(0)->setPrice( $product['price'] );
             $total += $product['price'] * $product['qty'];
             $itemList->addItem($item);        
-        }        
-        //$total += $shippingCost;        
+        }            
         $details = new Details();        
         $details->setShipping($shippingCost)->setTax(0.00)->setSubtotal($total);
         $amount = new Amount();        
@@ -65,9 +60,7 @@ class PaymentProcess{
         try {            
             $payment->create($this->apiContext);        
         } catch (PayPal\Exception\PayPalConnectionException $pce) {
-            // Don't spit out errors or use "exit" like this in production code            
-            ///echo 'Exception: ' . $pce->getMessage();
-            //echo '<pre>';print_r(json_decode($pce->getData()));
+            // Write any errors to log file
             file_put_contents(__DIR__ . '/paypal_error.log', var_export(json_decode($pce->getData()), true), FILE_APPEND);
             $this->errors = 'Failed to charge your card';            
             // error reporting
