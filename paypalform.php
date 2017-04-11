@@ -1,10 +1,4 @@
 <?php
-
-    $page_title     = 'Credit Card Payment';
-    $page_class     = 'checkout payment_method';
-    $page_keywords  = '';
-    $page_desc      = '';
-
     $transaction_total = $_POST['finaltotal'];
     $transaction_shipping = $_POST['shipping_total'];
 
@@ -232,8 +226,6 @@ if (isset($_POST['payment_paypal_submit'])) {
     }
 }
 
-// Include the template files.
-include_once ('./assets/template/website/main.php');
 ?>
 
 <!-- Begin the page content. -->
