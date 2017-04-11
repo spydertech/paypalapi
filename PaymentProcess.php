@@ -12,7 +12,6 @@ class PaymentProcess{
     private $apiContext;    
     public $errors;    
     public $paymentId;
-
     public $cardType;
     public $cardNumber;
     public $expiryMonth;
@@ -21,11 +20,10 @@ class PaymentProcess{
     public $firstName;
     public $lastName;
 
-
     public function __construct(){        
         $this->apiContext = new \PayPal\Rest\ApiContext(new \PayPal\Auth\OAuthTokenCredential(
-        'ATJkTs-nq44KZan7YtJ5-uYK8b5xfcbCHb4TXVe9qiM8senrCbJvnWw94yaT9D_McuB-Q8l-aO9LfbCS', // ClientID
-        'EA2AqqpqEUOR2zWqo091nZ0RoncSi6Oq5FMC9SwTLDJRqODBK-4hmj7VoPS6u5ICUv0qXFLtt7c6jjhE' // ClientSecret
+        'yourcode', // ClientID
+        'yourcode' // ClientSecret
         ));        
         $this->apiContext->setConfig(array('mode' => 'sandbox','log.LogEnabled' => true,'log.FileName' => __DIR__ . '/PayPal.log','log.LogLevel' => 'INFO', // PLEASE USE `INFO` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS                
        'cache.enabled' => false,                    
